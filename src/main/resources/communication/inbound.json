@@ -1,0 +1,18 @@
+{
+  "$id": "https://ithoc.de/webblog-service/inbound.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Inbound",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "content": {
+      "type": "string",
+      "required": true,
+      "maxLength": 4000
+    }
+  }
+}
