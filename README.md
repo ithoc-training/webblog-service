@@ -24,13 +24,19 @@ docker stop webblog-service
 docker rm webblog-service
 ```
 
+## Environment
+```
+export SPRING_PROFILES_ACTIVE=dev
+
+```
+
 
 ## Kubernetes
 ```
 kubectl create deployment webblog-service --image=webblog-service:0.0.1-SNAPSHOT
 kubectl delete -n default deployment webblog-service
 
-kubectl apply -f kubernetes.yaml
+kubectl apply -f kubernetes-deployment.yaml
 kubectl rollout restart deployment webblog-service
 
 kubectl create -f kubernetes.yaml
