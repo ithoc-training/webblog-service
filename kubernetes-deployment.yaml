@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webblog-service
+  name: webblog-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webblog-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webblog-service
+    spec:
+      containers:
+      - name: webblog-service
+        image: webblog-service:0.0.1-SNAPSHOT
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+          hostPort: 8080
+status: {}

@@ -1,9 +1,9 @@
-FROM docker-proxy.mecom.de/eclipse-temurin:17-jre-alpine as builder
+FROM eclipse-temurin:17-jre-alpine as builder
 WORKDIR application
 COPY target/*.jar application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
-FROM docker-proxy.mecom.de/eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 EXPOSE 8080
 
@@ -19,4 +19,6 @@ COPY --chown=appuser:appuser --from=builder application/spring-boot-loader/ ./
 COPY --chown=appuser:appuser --from=builder application/snapshot-dependencies/ ./
 COPY --chown=appuser:appuser --from=builder application/application/ ./
 
-ENTRYPOINT exec java ${JAVA_OPTS} org.springframework.boot.loader.JarLauncher
+# -Dspring.profiles.active="dev"
+ENV SPRING_PROFILES_ACTIVE=$SPRING_PROFILES_ACTIVE
+ENTRYPOINT exec java ${JAVA_OPTS} -D${SPRING_PROFILES_ACTIVE} org.springframework.boot.loader.JarLauncher
