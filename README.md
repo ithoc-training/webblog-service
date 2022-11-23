@@ -45,7 +45,8 @@ kubectl describe pod webblog-service
 kubectl describe service webblog-service
 
 kubectl apply -f webblog-config.yaml
-
+kubectl delete -n default configmap webblog-config
+kubectl create configmap webblog-config --from-env-file=webblog-config.properties
 ```
 
 ## Minikube
