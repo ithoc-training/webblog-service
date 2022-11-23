@@ -1,9 +1,9 @@
-FROM eclipse-temurin:17-jre-alpine as builder
+FROM docker-proxy.mecom.de/eclipse-temurin:17-jre-alpine as builder
 WORKDIR application
 COPY target/*.jar application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
-FROM eclipse-temurin:17-jre-alpine
+FROM docker-proxy.mecom.de/eclipse-temurin:17-jre-alpine
 
 EXPOSE 8080
 

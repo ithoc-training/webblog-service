@@ -27,4 +27,6 @@ spec:
         envFrom:
         - configMapRef:
             name: webblog-config
+        - secretRef:
+            name: webblog-secrets
 status: {}

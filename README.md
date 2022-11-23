@@ -2,13 +2,22 @@
 
 # Deployment
 
+## Scripting
+```
+eval $(minikube docker-env)
+```
+
 ## Local
 **Recipe**:
 ```
+mvn clean package
+mvn spring-boot:run -Dspring-boot.run.arguments="--DB_USERNAME=username --DB_PASSWORD=password"
+
 docker rmi webblog-service:0.0.1-SNAPSHOT
-eval $(minikube docker-env)
 docker build --tag webblog-service:0.0.1-SNAPSHOT .
-kubectl create -f kubernetes.yaml
+docker build --no-cache --tag webblog-service:0.0.1-SNAPSHOT .
+
+kubectl create -f kubernetes-deployment.yaml
 ```
 
 ## Docker
@@ -47,6 +56,8 @@ kubectl describe service webblog-service
 kubectl apply -f webblog-config.yaml
 kubectl delete -n default configmap webblog-config
 kubectl create configmap webblog-config --from-env-file=webblog-config.properties
+kubectl apply -f webblog-secrets.yaml
+
 ```
 
 ## Minikube
@@ -58,6 +69,8 @@ Rebuild the Docker image and create or update deployment by Kubernetes *kubectl*
 
 ```
 minikube dashboard &
+
+minikube service --all
 
 minikube start
 minikube stop
