@@ -1,9 +1,11 @@
-FROM docker-proxy.mecom.de/eclipse-temurin:17-jre-alpine as builder
+ARG DOCKER_PROXY=${DOCKER_PROXY}
+
+FROM ${DOCKER_PROXY}eclipse-temurin:17-jre-alpine as builder
 WORKDIR application
 COPY target/*.jar application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
-FROM docker-proxy.mecom.de/eclipse-temurin:17-jre-alpine
+FROM ${DOCKER_PROXY}eclipse-temurin:17-jre-alpine
 
 EXPOSE 8080
 
