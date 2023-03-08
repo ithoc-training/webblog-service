@@ -32,7 +32,7 @@ kubectl rollout restart deployment webblog-service
 kubectl create -f kubernetes.yaml
 kubectl get pods
 kubectl describe pod webblog-service
-kubectl describe service webblog-service
+kubectl describe service webblog-api
 
 kubectl apply -f webblog-config.yaml
 kubectl delete -n default configmap webblog-config
