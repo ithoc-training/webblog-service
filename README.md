@@ -15,6 +15,12 @@ Run the app
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
+Create a database
+```
+docker build -t webblog-db -f Dockerfile-postgres .
+docker run --name webblog-db -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d webblog-db
+```
+
 
 # Deployment
 

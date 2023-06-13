@@ -11,6 +11,7 @@ import java.util.UUID;
 @Profile("dev")
 public class InMemService implements PersistenceService {
 
+    private Long sequence = 0L;
     private final WebblogCache webblogCache;
 
     public InMemService(WebblogCache webblogCache) {
@@ -20,8 +21,9 @@ public class InMemService implements PersistenceService {
 
     @Override
     public PostDto persist(PostDto postDto) {
-        String uuid = UUID.randomUUID().toString();
-        postDto.setId(uuid);
+
+        sequence += 1;
+        postDto.setId(sequence.toString());
 
         webblogCache.save(postDto);
 

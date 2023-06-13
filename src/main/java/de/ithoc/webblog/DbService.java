@@ -1,35 +1,36 @@
 package de.ithoc.webblog;
 
+import de.ithoc.webblog.posts.Post;
 import de.ithoc.webblog.posts.PostDto;
+import de.ithoc.webblog.posts.PostRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @Profile("!dev")
 public class DbService implements PersistenceService {
 
-    @Value("${db.username}")
-    private String dbUsername;
+    private final PostRepository postRepository;
 
-    private final WebblogCache webblogCache;
-
-    public DbService(WebblogCache webblogCache) {
-        this.webblogCache = webblogCache;
+    public DbService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
 
     @Override
     public PostDto persist(PostDto postDto) {
 
-        postDto.setId(UUID.randomUUID().toString());
-        postDto.setTitle("Username");
-        postDto.setContent(dbUsername);
+        Post post = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post = postRepository.save(post);
 
-        webblogCache.save(postDto);
+        postDto.setId(post.getId().toString());
 
         return postDto;
     }
@@ -37,7 +38,13 @@ public class DbService implements PersistenceService {
     @Override
     public Collection<PostDto> readAll() {
 
-        return webblogCache.findAll();
+        return postRepository.findAll().stream().map(post -> {
+            PostDto postDto = new PostDto();
+            postDto.setId(post.getId().toString());
+            postDto.setTitle(post.getTitle());
+            postDto.setContent(post.getContent());
+            return postDto;
+        }).toList();
     }
 
 }
