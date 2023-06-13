@@ -1,9 +1,9 @@
-
 # Shall be done through .bashrc
 eval $(minikube docker-env)
 minikube start
 
 # Optional removal of old stuff
+kubectl delete -n default service webblog-service
 kubectl delete -n default deployment webblog-service
 docker rmi --force webblog-service:0.0.1-SNAPSHOT
 
@@ -17,4 +17,5 @@ mvn clean install
 minikube image build -t webblog-service:0.0.1-SNAPSHOT .
 
 kubectl apply -f kubernetes-deployment.yaml
-minikube service --all &
+kubectl create -f kubernetes-service.yaml
+minikube service webblog-service
