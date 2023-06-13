@@ -1,3 +1,19 @@
+# Building
+
+Clone the repo
+```
+git clone git@github.com:ithoc-training/webblog-service.git
+```
+
+Generate stubs
+```
+mvn clean compile
+```
+
+Run the app
+```
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
 
 
 # Deployment
